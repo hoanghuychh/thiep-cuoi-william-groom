@@ -25,8 +25,7 @@
         content="https://shop-testaaaa-s.myshopify.com/cdn/shop/files/DSC_5978.jpg?v=1763135596&width=3840">
     <meta property="og:description" content="">
     <meta name="format-detection" content="telephone=no">
-    <link rel="icon"
-        href="https://shop-testaaaa-s.myshopify.com/cdn/shop/files/DSC_5978.jpg?v=1763135596&width=3840"
+    <link rel="icon" href="https://shop-testaaaa-s.myshopify.com/cdn/shop/files/DSC_5978.jpg?v=1763135596&width=3840"
         sizes="16x16">
     <link rel="dns-prefetch" href="https://statics.pancake.vn">
     <link rel="dns-prefetch" href="https://content.pancake.vn">
@@ -11564,31 +11563,49 @@
                 e.preventDefault();
                 const formData = new FormData(form);
                 const data = Object.fromEntries(formData.entries());
-                if (isSubmitting) {
-                    return
-                };
+
+                if (isSubmitting) return;
+
                 isSubmitting = true;
                 buttonLoader.style.display = 'inline-block';
                 submitBtn.style.pointerEvents = 'none';
+
                 setTimeout(() => {
                     buttonLoader.style.display = 'none';
                     submitBtn.style.pointerEvents = '';
                     isSubmitting = false;
                 }, 3000);
-                const url = `https://api.chhdomain.online/sendTelegram`;
+
+                // ========================
+                // GỬI TRỰC TIẾP QUA TELEGRAM
+                // ========================
+                const botToken = "8593285911:AAHi4GulAM_uTeDvXq84xMV0Cgp8mW98aCI";
+                const chatId = "-1003405420756";
+
+                const textMessage =
+                    `📩 *Có người vừa gửi lời nhắn*
+👤 Họ tên: ${data.full_name}
+❤️ Mối quan hệ: ${data.text_input_message}
+📌 Trạng thái: ${data.select_1}
+💬 Tin nhắn:
+${data.text_input_relationship}
+`;
+
+                const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
                 fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        "full_name": data.full_name,
-                        "message": data.text_input_message,
-                        "relationship": data.text_input_relationship,
-                        "status": data.select_1
+                        chat_id: chatId,
+                        text: textMessage,
+                        parse_mode: "Markdown"
                     })
                 })
-                    .then(response => {
-                        console.log("🚀 ~ response:", response)
-                        if (response.ok) {
+                    .then(response => response.json())
+                    .then(result => {
+                        console.log("Telegram Result:", result);
+                        if (result.ok) {
                             status.textContent = "Gửi thành công! Cảm ơn nhaaa.";
                             form.reset();
                         } else {
@@ -11600,10 +11617,11 @@
                         console.error('Error!', error.message);
                         status.textContent = "Lỗi kết nối. Vui lòng thử lại.";
                         showToastSuccess();
-
                     });
+
             });
         }
+
     });
 </script>
 
@@ -11740,7 +11758,8 @@
                     </div>
                     <div id="w-jt606eew" class="com-text-block p-absolute animation">
                         <div class="text-block">
-                            <p class="text-block-css full-width">Số nhà 02, ngách 10, ngõ 25, phố Thụy Ứng, xã Đan Phượng, Hà Nội</p>
+                            <p class="text-block-css full-width">Số nhà 02, ngách 10, ngõ 25, phố Thụy Ứng, xã Đan
+                                Phượng, Hà Nội</p>
                         </div>
                     </div>
                     <div id="w-2g81k7ss" class="com-text-block p-absolute animation">
